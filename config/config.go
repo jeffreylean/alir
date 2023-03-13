@@ -1,13 +1,14 @@
 package config
 
 import (
-	"fmt"
 	"os"
 	"time"
+
+	yaml "gopkg.in/yaml.v3"
 )
 
 type Config struct {
-	Port       string        `yaml:"port" default:"8080"`
+	Port       int32         `yaml:"port" default:"8080"`
 	Timeout    time.Duration `yaml:"timeout" default:"60s"`
 	ConfigFile string
 }
@@ -20,9 +21,18 @@ func (c *Config) Load() error {
 		}
 
 		// alir-config.yaml is the default file name
-		fileLocation := path + "alir-config.yaml"
-		fmt.Println(fileLocation)
-
+		c.ConfigFile = path + "alir-config.yaml"
 	}
+
+	yFile, err := os.ReadFile(c.ConfigFile)
+	if err != nil {
+		return err
+	}
+
+	err = yaml.Unmarshal(yFile, &c)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
