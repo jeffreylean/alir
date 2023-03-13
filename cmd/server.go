@@ -5,7 +5,10 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"context"
+
 	"github.com/jeffreylean/alir/config"
+	"github.com/jeffreylean/alir/internal/server"
 	"github.com/spf13/cobra"
 )
 
@@ -30,7 +33,15 @@ func startCommand(c *config.Config) *cobra.Command {
 		Aliases: []string{"s"},
 		Short:   "Start the server",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			c.Load()
+			if err := c.Load(); err != nil {
+				return err
+			}
+
+			s := server.Start(c)
+			if err := s.Listen(context.Background()); err != nil {
+				return err
+			}
+
 			return nil
 		},
 	}

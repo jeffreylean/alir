@@ -21,7 +21,7 @@ func (c *Config) Load() error {
 		}
 
 		// alir-config.yaml is the default file name
-		c.ConfigFile = path + "alir-config.yaml"
+		c.ConfigFile = path + "/alir-config.yaml"
 	}
 
 	yFile, err := os.ReadFile(c.ConfigFile)

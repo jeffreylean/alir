@@ -14,7 +14,7 @@ func TestLoad(t *testing.T) {
 	path, err := filepath.Abs("../etc")
 	assert.NoError(t, err)
 
-	config.ConfigFile = path + "/sample.yaml"
+	config.ConfigFile = path + "/alir-config.yaml"
 
 	err = config.Load()
 	assert.NoError(t, err)
